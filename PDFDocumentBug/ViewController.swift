@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import Quartz
 
 class ViewController: NSViewController {
 
@@ -21,7 +22,22 @@ class ViewController: NSViewController {
         // Update the view, if already loaded.
         }
     }
-
-
+    
+    @IBAction func openPDFClicked(_ sender: NSButton) {
+        let openPanel = NSOpenPanel()
+        openPanel.allowsMultipleSelection = false
+        openPanel.canChooseDirectories = false
+        openPanel.canCreateDirectories = false
+        openPanel.canChooseFiles = true
+        openPanel.allowedFileTypes = ["pdf"]
+        
+        if(openPanel.runModal() == NSApplication.ModalResponse.OK){
+            if let pdfURL = openPanel.url {
+                // memory leak happens here
+                let pdf = PDFDocument(url: pdfURL)
+            }
+        }
+        
+    }
 }
 
